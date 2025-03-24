@@ -1,0 +1,8 @@
+# Ignore artifacts:
+build
+coverage
+
+# Additional ignores:
+node_modules
+dist
+*.log
