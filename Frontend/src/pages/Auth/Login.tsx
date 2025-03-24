@@ -21,7 +21,7 @@ const Login = () => {
         <p className="text-xs text-slate-700 mt-[5px] mb-6">Please enter your detail to login</p>
         <form onSubmit={handleLogin}>
           <Input value={data.email} onChange={(e: ChangeEvent<HTMLInputElement>) => setData({ ...data, email: e.target.value })} type="email" placeholder="john@example.com" label="Email Address" />
-          <Input value={data.password} onChange={(e: ChangeEvent<HTMLInputElement>) => setData({ ...data, password: e.target.value })} type="password" placeholder="Password" />
+          <Input value={data.password} onChange={(e: ChangeEvent<HTMLInputElement>) => setData({ ...data, password: e.target.value })} type="password" placeholder="Min 8 Characters" label="Password" />
           <button type="submit" className="btn-primary mt-4">Login</button>
           <p className="text-xs text-slate-700 mt-4">Don't have an account? <span onClick={() => navigate("/signup")} className="text-primary cursor-pointer">Register</span></p>
         </form>
