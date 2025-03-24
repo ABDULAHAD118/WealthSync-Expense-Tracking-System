@@ -26,5 +26,5 @@
 ## 📦 Installation  
 ### **Clone the repository**  
 ```sh
-git clone https://github.com/your-username/wealthsync.git  
-cd wealthsync
+git clone https://github.com/ABDULAHAD118/WealthSync-Expense-Tracking-System.git
+cd WealthSync-Expense-Tracking-System
