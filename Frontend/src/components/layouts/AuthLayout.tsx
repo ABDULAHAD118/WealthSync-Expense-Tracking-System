@@ -1,6 +1,6 @@
 import { ReactNode } from 'react';
 import { LuTrendingUpDown } from 'react-icons/lu';
-import Chart from '../../assets/Chart.png';
+import Chart from '../../assets/images/Chart.png';
 
 const AuthLayout = ({ children }: { children: ReactNode }) => {
     return (

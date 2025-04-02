@@ -1,24 +1,32 @@
-import { ChangeEvent, FormEvent, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { FormEvent, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import AuthLayout from '../../components/layouts/AuthLayout';
 import Input from '../../components/Input/Input';
 import ProfilePhotoSelector from '../../components/Input/ProfilePhotoSelector';
 
 const Signup = () => {
-    const [profilePic, setProfilePic] = useState<File | ArrayBuffer | null>(
-        null
-    );
+    const [profilePic, setProfilePic] = useState<File | null>(null);
     const [data, setData] = useState({
         fullName: '',
         email: '',
         password: '',
     });
-    const [error, setError] = useState(null);
+    const [error, setError] = useState<string | null>(null);
     const navigate = useNavigate();
 
     const handleSubmit = async (e: FormEvent) => {
         e.preventDefault();
-        console.log(data);
+        let profileimageurl = '';
+        if (!data.fullName || !data.email || !data.password) {
+            setError('Please fill all the fields');
+            return;
+        }
+        if (!profilePic) {
+            setError('Please select a profile picture');
+            return;
+        }
+
+        console.log(data, profilePic);
     };
     return (
         <AuthLayout>
@@ -32,9 +40,7 @@ const Signup = () => {
                 <form onSubmit={handleSubmit}>
                     <ProfilePhotoSelector
                         image={profilePic}
-                        setImage={(image) =>
-                            setProfilePic(image as File | ArrayBuffer | null)
-                        }
+                        setImage={setProfilePic}
                     />
 
                     <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
@@ -71,6 +77,21 @@ const Signup = () => {
                             />
                         </div>
                     </div>
+                    {error && (
+                        <p className="pb-2.5 text-xs text-red-500">{error}</p>
+                    )}
+                    <button type="submit" className="btn-primary">
+                        Sign Up
+                    </button>
+                    <p className="mt-3 text-[13px] text-slate-800">
+                        Already have an account?
+                        <Link
+                            to="/login"
+                            className="text-primary cursor-pointer font-medium underline"
+                        >
+                            Login
+                        </Link>
+                    </p>
                 </form>
             </div>
         </AuthLayout>

@@ -1,15 +1,16 @@
 import { ChangeEvent, useRef, useState } from 'react';
 import { LuUser, LuUpload, LuTrash } from 'react-icons/lu';
 interface ProfilePhotoSelectorProps {
-    image: File | ArrayBuffer | null;
-    setImage: (image: string | File | null) => void;
+    image: File | null;
+    setImage: (image: File | null) => void;
 }
 const ProfilePhotoSelector = (props: ProfilePhotoSelectorProps) => {
     const { image, setImage } = props;
-    const inputRef = useRef<HTMLInputElement | null>(null);
+    const inputRef = useRef<HTMLInputElement>(null);
     const [previewUrl, setPreviewUrl] = useState<string | null>(null);
     const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0];
+        console.log(file, previewUrl);
         if (file) {
             setImage(file);
             const preview = URL.createObjectURL(file);
@@ -20,6 +21,7 @@ const ProfilePhotoSelector = (props: ProfilePhotoSelectorProps) => {
     const handleRemoveImage = () => {
         setImage(null);
         setPreviewUrl(null);
+        console.log(image, previewUrl);
     };
 
     const onChooseFile = () => {
@@ -27,21 +29,22 @@ const ProfilePhotoSelector = (props: ProfilePhotoSelectorProps) => {
             inputRef.current.click();
         }
     };
+
     return (
         <div className="mb-6 flex justify-center">
             <input
                 type="file"
                 accept="image/*"
-                ref={inputRef}
                 onChange={handleImageChange}
                 className="hidden"
+                ref={inputRef}
             />
             {!image ? (
                 <div className="relative flex h-20 w-20 items-center justify-center rounded-full bg-purple-100">
                     <LuUser className="text-primary text-4xl" />
                     <button
                         type="button"
-                        className="bg-primary r absolute -right-1 -bottom-1 flex h-8 w-8 cursor-pointer items-center justify-center rounded-full text-white"
+                        className="bg-primary absolute -right-1 -bottom-1 flex h-8 w-8 cursor-pointer items-center justify-center rounded-full text-white"
                         onClick={onChooseFile}
                     >
                         <LuUpload />
@@ -59,7 +62,7 @@ const ProfilePhotoSelector = (props: ProfilePhotoSelectorProps) => {
                         className="absolute -right-1 -bottom-1 flex h-8 w-8 cursor-pointer items-center justify-center rounded-full bg-red-500 text-white"
                         onClick={handleRemoveImage}
                     >
-                        <LuTrash className="" />
+                        <LuTrash />
                     </button>
                 </div>
             )}
