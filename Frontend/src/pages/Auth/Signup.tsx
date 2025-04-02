@@ -1,5 +1,5 @@
 import { FormEvent, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import AuthLayout from '../../components/layouts/AuthLayout';
 import Input from '../../components/Input/Input';
 import ProfilePhotoSelector from '../../components/Input/ProfilePhotoSelector';
@@ -12,11 +12,11 @@ const Signup = () => {
         password: '',
     });
     const [error, setError] = useState<string | null>(null);
-    const navigate = useNavigate();
+    // const navigate = useNavigate();
 
     const handleSubmit = async (e: FormEvent) => {
         e.preventDefault();
-        let profileimageurl = '';
+        // let profileimageurl = '';
         if (!data.fullName || !data.email || !data.password) {
             setError('Please fill all the fields');
             return;

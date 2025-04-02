@@ -1,6 +1,6 @@
 import { ChangeEvent, useState } from 'react';
 import AuthLayout from '../../components/layouts/AuthLayout';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import Input from '../../components/Input/Input';
 import { validateEmail } from '../../utils/helper';
 
@@ -10,7 +10,7 @@ const Login = () => {
         password: '',
     });
     const [error, setError] = useState<string | null>(null);
-    const navigate = useNavigate();
+    // const navigate = useNavigate();
     const handleLogin = (e: any) => {
         e.preventDefault();
         if (!validateEmail(data.email)) {
