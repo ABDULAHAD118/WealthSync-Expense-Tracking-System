@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import AuthLayout from '../../components/layouts/AuthLayout';
 import Input from '../../components/Input/Input';
 import ProfilePhotoSelector from '../../components/Input/ProfilePhotoSelector';
+import { validateEmail } from '../../utils/helper';
 
 const Signup = () => {
     const [profilePic, setProfilePic] = useState<File | null>(null);
@@ -21,10 +22,11 @@ const Signup = () => {
             setError('Please fill all the fields');
             return;
         }
-        if (!profilePic) {
-            setError('Please select a profile picture');
+        if (!validateEmail(data.email)) {
+            setError('Please enter a valid email address');
             return;
         }
+        setError(null);
 
         console.log(data, profilePic);
     };
