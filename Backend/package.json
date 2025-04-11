@@ -2,11 +2,13 @@
   "name": "wealthsync-expense-tracking-system",
   "version": "1.0.0",
   "description": "",
-  "main": "dist/index.js",
+  "main": "index.js",
   "scripts": {
-    "start": "node ./src/index.ts",
-    "dev": "nodemon ./src/index.ts",
-    "build": "npx tsc"
+    "start": "node ./src/index.js",
+    "dev": "nodemon ./src/index.js"
+  },
+  "engines": {
+    "node": "22.x.x"
   },
   "keywords": [],
   "author": "",
@@ -23,10 +25,6 @@
     "xlsx": "^0.18.5"
   },
   "devDependencies": {
-    "@types/express": "^5.0.1",
-    "@types/node": "^22.14.0",
-    "nodemon": "^3.1.9",
-    "ts-node": "^10.9.2",
-    "typescript": "^5.8.3"
+    "nodemon": "^3.1.9"
   }
 }
