@@ -4,6 +4,7 @@ const cors = require('cors');
 
 const connectDb = require('./config/db');
 const authRoutes = require('./routes/auth.route');
+const incomeRoutes = require('./routes/income.route');
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -22,6 +23,7 @@ app.use(express.json());
 })();
 
 app.use('/api/v1/auth', authRoutes);
+app.use('/api/v1/income', incomeRoutes);
 
 app.listen(port, () => {
     console.log(`[server]: Server is running at http://localhost:${port}`);
