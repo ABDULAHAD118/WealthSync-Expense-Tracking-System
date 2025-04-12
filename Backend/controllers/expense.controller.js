@@ -1,86 +1,86 @@
+const Expense = require('../models/expense.model');
 const xlsx = require('xlsx');
 const PDFDocument = require('pdfkit-table');
-const Income = require('../models/income.model');
 const fs = require('fs');
 
-const addIncome = async (req, res) => {
+const addExpense = async (req, res) => {
     const userId = req.user.id;
     try {
-        const { icon, amount, source, date } = req.body;
-        if (!icon || !amount || !source) {
+        const { icon, amount, category, date } = req.body;
+        if (!icon || !amount || !category) {
             return res.status(400).json({ message: 'Please fill all the fields' });
         }
 
-        const income = await Income.create({
+        const expense = await Expense.create({
             userId,
             icon,
             amount,
-            source,
+            category,
             date,
         });
-        if (income) {
-            return res.status(201).json({ message: 'Income added successfully', income });
+        if (expense) {
+            return res.status(201).json({ message: 'Expense added successfully', Expense });
         }
     } catch (error) {
         console.error(error);
         return res.status(500).json({ message: 'Internal server error' });
     }
 };
-const getAllIncome = async (req, res) => {
+const getAllExpense = async (req, res) => {
     const userId = req.user.id;
     try {
-        const incomes = await Income.find({ userId }).sort({ date: -1 });
-        if (incomes.length === 0) {
-            return res.status(404).json({ message: 'No income found' });
+        const expenses = await Expense.find({ userId }).sort({ date: -1 });
+        if (expenses.length === 0) {
+            return res.status(404).json({ message: 'No expense found' });
         }
-        return res.status(200).json(incomes);
+        return res.status(200).json(expenses);
     } catch (error) {
         console.error(error);
         return res.status(500).json({ message: 'Internal server error' });
     }
 };
-const deleteIncome = async (req, res) => {
+const deleteExpense = async (req, res) => {
     const userId = req.user.id;
     const { id } = req.params;
     try {
-        const income = await Income.findOneAndDelete({ _id: id, userId });
-        if (!income) {
-            return res.status(404).json({ message: 'Income not found' });
+        const expense = await Expense.findOneAndDelete({ _id: id, userId });
+        if (!expense) {
+            return res.status(404).json({ message: 'Expense not found' });
         }
-        return res.status(200).json({ message: 'Income deleted successfully' });
+        return res.status(200).json({ message: 'Expense deleted successfully' });
     } catch (error) {
         console.error(error);
         return res.status(500).json({ message: 'Internal server error' });
     }
 };
-const downloadPdfIncome = async (req, res) => {
+const downloadPdfExpense = async (req, res) => {
     const userId = req.user.id;
     try {
-        const income = await Income.find({ userId }).sort({ date: -1 });
-        if (income.length === 0) {
-            return res.status(404).json({ message: 'No income found' });
+        const expense = await Expense.find({ userId }).sort({ date: -1 });
+        if (expense.length === 0) {
+            return res.status(404).json({ message: 'No expense found' });
         }
-        const data = income.map((item) => ({
+        const data = expense.map((item) => ({
             icon: item.icon,
             amount: item.amount,
-            source: item.source,
+            category: item.category,
             date: item.date.toISOString().split('T')[0],
         }));
 
         // Generate PDF file
-        const pdfFileName = 'Income_Details.pdf';
+        const pdfFileName = 'Expense_Details.pdf';
         const doc = new PDFDocument();
         doc.pipe(fs.createWriteStream(pdfFileName));
-        doc.fontSize(16).text('Income Details', { align: 'center' });
+        doc.fontSize(16).text('Expense Details', { align: 'center' });
         doc.moveDown();
         await doc.table(
             {
-                headers: ['Sr.No.', 'Icon', 'Amount', 'Source', 'Date'],
+                headers: ['Sr.No.', 'Icon', 'Amount', 'Category', 'Date'],
                 rows: data.map((item, index) => [
                     index + 1,
                     item.icon,
                     item.amount,
-                    item.source,
+                    item.category,
                     item.date,
                 ]),
             },
@@ -97,25 +97,25 @@ const downloadPdfIncome = async (req, res) => {
         return res.status(500).json({ message: 'Internal server error' });
     }
 };
-const downloadExcelIncome = async (req, res) => {
+const downloadExcelExpense = async (req, res) => {
     const userId = req.user.id;
     try {
-        const income = await Income.find({ userId }).sort({ date: -1 });
-        if (income.length === 0) {
-            return res.status(404).json({ message: 'No income found' });
+        const expense = await Expense.find({ userId }).sort({ date: -1 });
+        if (expense.length === 0) {
+            return res.status(404).json({ message: 'No expense found' });
         }
-        const data = income.map((item) => ({
+        const data = expense.map((item) => ({
             icon: item.icon,
             amount: item.amount,
-            source: item.source,
+            category: item.category,
             date: item.date.toISOString().split('T')[0],
         }));
 
         // Generate PDF file
         const wb = xlsx.utils.book_new();
         const ws = xlsx.utils.json_to_sheet(data);
-        xlsx.utils.book_append_sheet(wb, ws, 'Income Details');
-        const fileName = 'Income_Details.xlsx';
+        xlsx.utils.book_append_sheet(wb, ws, 'Expense Details');
+        const fileName = 'Expense_Details.xlsx';
         xlsx.writeFile(wb, fileName);
 
         res.download(fileName);
@@ -125,4 +125,10 @@ const downloadExcelIncome = async (req, res) => {
     }
 };
 
-module.exports = { addIncome, getAllIncome, deleteIncome, downloadPdfIncome, downloadExcelIncome };
+module.exports = {
+    addExpense,
+    getAllExpense,
+    deleteExpense,
+    downloadPdfExpense,
+    downloadExcelExpense,
+};
