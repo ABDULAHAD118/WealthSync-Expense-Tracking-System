@@ -26,14 +26,17 @@ const registerUser = async (req, res) => {
             email,
             password,
             fullName,
-            profileImageUrl,
+            profileImageUrl: req.imageURL,
         });
         const token = generateToken(user._id);
         if (user) {
             return res.status(201).json({
-                _id: user._id,
                 message: 'User created successfully',
                 token,
+                _id: user._id,
+                fullName: user.fullName,
+                email: user.email,
+                profileImageUrl: user.profileImageUrl,
             });
         }
     } catch (err) {

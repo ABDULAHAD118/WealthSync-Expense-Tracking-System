@@ -39,7 +39,7 @@ const uploadImageMiddleware = (req, res, next) => {
 
         try {
             const result = await cloudinary.uploader.upload_stream(
-                { folder: '/images' },
+                { folder: '/wealthSync' },
                 (error, result) => {
                     if (error) {
                         return res
