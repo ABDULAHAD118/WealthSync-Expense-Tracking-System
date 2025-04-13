@@ -38,6 +38,7 @@ const ProfilePhotoSelector = (props: ProfilePhotoSelectorProps) => {
                 onChange={handleImageChange}
                 className="hidden"
                 ref={inputRef}
+                required
             />
             {!image ? (
                 <div className="relative flex h-20 w-20 items-center justify-center rounded-full bg-purple-100">

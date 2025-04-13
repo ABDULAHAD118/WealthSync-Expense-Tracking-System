@@ -1,17 +1,21 @@
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, useContext, useState } from 'react';
 import AuthLayout from '../../components/layouts/AuthLayout';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Input from '../../components/Input/Input';
 import { validateEmail } from '../../utils/helper';
+import axiosInstance from '../../utils/axiosInstance';
+import { API_PATH } from '../../utils/apiPath';
+import { UserContext } from '../../contexts/UserContext';
 
 const Login = () => {
+    const { updateUser } = useContext<any>(UserContext);
     const [data, setData] = useState({
         email: '',
         password: '',
     });
     const [error, setError] = useState<string | null>(null);
-    // const navigate = useNavigate();
-    const handleLogin = (e: any) => {
+    const navigate = useNavigate();
+    const handleLogin = async (e: any) => {
         e.preventDefault();
         if (!validateEmail(data.email)) {
             setError('Please enter a valid email address');
@@ -21,13 +25,30 @@ const Login = () => {
             setError('Password is required');
             return;
         }
-        if (data.password.length < 8) {
-            setError('Password must be at least 8 characters long');
+        if (data.password.length < 6) {
+            setError('Password must be at least 6 characters long');
             return;
         }
         setError(null);
-        // Perform login logic here
-        console.log(data);
+
+        try {
+            const response = await axiosInstance.post(API_PATH.AUTH.LOGIN, {
+                email: data.email,
+                password: data.password,
+            });
+            const { token, user } = response.data;
+            if (token) {
+                localStorage.setItem('token', token);
+                updateUser(user);
+                navigate('/dashboard');
+            }
+        } catch (error: any) {
+            if (error.response && error.response.data.message) {
+                setError(error.response.data.message);
+            } else {
+                setError('Something went wrong. Please try again later.');
+            }
+        }
     };
     return (
         <AuthLayout>
@@ -54,7 +75,7 @@ const Login = () => {
                             setData({ ...data, password: e.target.value })
                         }
                         type="password"
-                        placeholder="Min 8 Characters"
+                        placeholder="Min 6 Characters"
                         label="Password"
                     />
                     {error && (

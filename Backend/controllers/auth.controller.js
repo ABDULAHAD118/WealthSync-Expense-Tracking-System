@@ -33,10 +33,12 @@ const registerUser = async (req, res) => {
             return res.status(201).json({
                 message: 'User created successfully',
                 token,
-                _id: user._id,
-                fullName: user.fullName,
-                email: user.email,
-                profileImageUrl: user.profileImageUrl,
+                user: {
+                    _id: user._id,
+                    fullName: user.fullName,
+                    email: user.email,
+                    profileImageUrl: user.profileImageUrl,
+                },
             });
         }
     } catch (err) {
@@ -65,9 +67,14 @@ const loginUser = async (req, res) => {
         const token = generateToken(user._id);
         if (user) {
             return res.status(200).json({
-                _id: user._id,
                 message: 'User logged in successfully',
                 token,
+                user: {
+                    _id: user._id,
+                    fullName: user.fullName,
+                    email: user.email,
+                    profileImageUrl: user.profileImageUrl,
+                },
             });
         }
     } catch (error) {

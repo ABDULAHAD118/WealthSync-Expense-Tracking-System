@@ -1,11 +1,15 @@
-import { FormEvent, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { FormEvent, useContext, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import AuthLayout from '../../components/layouts/AuthLayout';
 import Input from '../../components/Input/Input';
 import ProfilePhotoSelector from '../../components/Input/ProfilePhotoSelector';
 import { validateEmail } from '../../utils/helper';
+import { API_PATH } from '../../utils/apiPath';
+import axiosInstance from '../../utils/axiosInstance';
+import { UserContext } from '../../contexts/UserContext';
 
 const Signup = () => {
+    const { updateUser } = useContext<any>(UserContext);
     const [profilePic, setProfilePic] = useState<File | null>(null);
     const [data, setData] = useState({
         fullName: '',
@@ -13,12 +17,12 @@ const Signup = () => {
         password: '',
     });
     const [error, setError] = useState<string | null>(null);
-    // const navigate = useNavigate();
+    const navigate = useNavigate();
 
     const handleSubmit = async (e: FormEvent) => {
         e.preventDefault();
         // let profileimageurl = '';
-        if (!data.fullName || !data.email || !data.password) {
+        if (!data.fullName || !data.email || !data.password || !profilePic) {
             setError('Please fill all the fields');
             return;
         }
@@ -28,7 +32,37 @@ const Signup = () => {
         }
         setError(null);
 
-        console.log(data, profilePic);
+        try {
+            const formData = new FormData();
+            formData.append('fullName', data.fullName);
+            formData.append('email', data.email);
+            formData.append('password', data.password);
+            if (profilePic) {
+                formData.append('image', profilePic);
+            }
+
+            const response = await axiosInstance.post(
+                API_PATH.AUTH.REGISTER,
+                formData,
+                {
+                    headers: {
+                        'Content-Type': 'multipart/form-data',
+                    },
+                }
+            );
+            const { token, user } = response.data;
+            if (token) {
+                localStorage.setItem('token', token);
+                updateUser(user);
+                navigate('/dashboard');
+            }
+        } catch (error: any) {
+            if (error.response && error.response.data.message) {
+                setError(error.response.data.message);
+            } else {
+                setError('Something went wrong. Please try again later.');
+            }
+        }
     };
     return (
         <AuthLayout>
@@ -49,7 +83,7 @@ const Signup = () => {
                         <Input
                             value={data.fullName}
                             label={'Full Name'}
-                            placeholder="Jhon"
+                            placeholder="John"
                             onChange={(e) =>
                                 setData({ ...data, fullName: e.target.value })
                             }
@@ -58,7 +92,7 @@ const Signup = () => {
                         <Input
                             value={data.email}
                             label={'Email'}
-                            placeholder="jhon@example.com"
+                            placeholder="john@example.com"
                             onChange={(e) =>
                                 setData({ ...data, email: e.target.value })
                             }
@@ -68,7 +102,7 @@ const Signup = () => {
                             <Input
                                 value={data.password}
                                 label={'Password'}
-                                placeholder="Min 8 Characters"
+                                placeholder="Min 6 Characters"
                                 onChange={(e) =>
                                     setData({
                                         ...data,
