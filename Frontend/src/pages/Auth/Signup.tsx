@@ -21,7 +21,6 @@ const Signup = () => {
 
     const handleSubmit = async (e: FormEvent) => {
         e.preventDefault();
-        // let profileimageurl = '';
         if (!data.fullName || !data.email || !data.password || !profilePic) {
             setError('Please fill all the fields');
             return;
