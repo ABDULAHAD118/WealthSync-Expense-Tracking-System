@@ -1,19 +1,15 @@
 import { createContext, ReactNode, useEffect, useState } from 'react';
 import { UserContextType, UserType } from '../Types';
+import axiosInstance from '../utils/axiosInstance';
+import { API_PATH } from '../utils/apiPath';
 
 export const UserContext = createContext<UserContextType | null>(null);
 
 const UserContextProvider = ({ children }: { children: ReactNode }) => {
     const [user, setUser] = useState<UserType | null>(null);
-    const [token, setToken] = useState<string | null>(null);
+    const [loading, setLoading] = useState(true);
 
     const updateUser = (userData: UserType) => {
-        // Check if token exists in local storage and set it to state
-        if (localStorage.getItem('token')) {
-            setToken(localStorage.getItem('token'));
-        } else {
-            setToken(null);
-        }
         setUser(userData);
     };
 
@@ -22,17 +18,31 @@ const UserContextProvider = ({ children }: { children: ReactNode }) => {
     };
 
     useEffect(() => {
-        // Check if token exists in local storage and set it to state
-        const storedToken = localStorage.getItem('token');
-        if (storedToken) {
-            setToken(storedToken);
-        } else {
-            setToken(null);
-        }
+        const verifyUser = async () => {
+            const token = localStorage.getItem('token');
+            if (!token) {
+                setLoading(false);
+                return;
+            }
+
+            try {
+                const res = await axiosInstance.get(API_PATH.AUTH.VERIFY_TOKEN);
+                setUser(res.data.user);
+            } catch (error) {
+                localStorage.removeItem('token');
+                setUser(null);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        verifyUser();
     }, []);
 
     return (
-        <UserContext.Provider value={{ user, updateUser, clearUser, token }}>
+        <UserContext.Provider
+            value={{ user, setUser, loading, updateUser, clearUser }}
+        >
             {children}
         </UserContext.Provider>
     );
