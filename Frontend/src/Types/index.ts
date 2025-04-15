@@ -1,3 +1,6 @@
+import { ReactNode } from 'react';
+import { IconType } from 'react-icons/lib';
+
 export interface UserContextType {
     user?: UserType | null;
     setUser?: (user: UserType | null) => void;
@@ -11,4 +14,16 @@ export interface UserType {
     fullName: string;
     email: string;
     profileImageUrl: string;
+}
+
+export interface DashboardLayoutProps {
+    activeMenu: string;
+    children?: ReactNode;
+}
+
+export interface SideMenuDataType {
+    id: string;
+    name: string;
+    icon: ReactNode | IconType;
+    path: string;
 }
