@@ -27,3 +27,10 @@ export interface SideMenuDataType {
     icon: ReactNode | IconType;
     path: string;
 }
+
+export interface CharAvatarProps {
+    fullName?: string;
+    width?: string;
+    height?: string;
+    style?: string;
+}

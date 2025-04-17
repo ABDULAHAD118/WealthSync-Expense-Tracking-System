@@ -78,7 +78,7 @@ const Signup = () => {
                         setImage={setProfilePic}
                     />
 
-                    <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+                    <div className="gap-4 sm:grid md:grid-cols-2">
                         <Input
                             value={data.fullName}
                             label={'Full Name'}

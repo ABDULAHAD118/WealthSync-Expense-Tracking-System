@@ -3,6 +3,7 @@ import { DashboardLayoutProps, SideMenuDataType } from '../../Types';
 import { UserContext } from '../../contexts/UserContext';
 import { useNavigate } from 'react-router-dom';
 import { SIDE_MENU_DATA } from '../../utils/data';
+import CharAvatar from '../Cards/CharAvatar';
 
 const SideMenu = (props: DashboardLayoutProps) => {
     const { activeMenu } = props;
@@ -23,11 +24,18 @@ const SideMenu = (props: DashboardLayoutProps) => {
     return (
         <div className="sticky top-[61px] z-20 h-[calc(100vh-61px)] w-64 border-r border-gray-200/50 bg-white p-5">
             <div className="mt-3 mb-3 flex flex-col items-center justify-center gap-3">
-                {user?.profileImageUrl && (
+                {user?.profileImageUrl ? (
                     <img
                         src={user?.profileImageUrl}
                         alt="Profile Image"
                         className="h-20 w-20 rounded-full bg-slate-400"
+                    />
+                ) : (
+                    <CharAvatar
+                        fullName={user?.fullName}
+                        width="w-20"
+                        height="h-20"
+                        style="text-xl"
                     />
                 )}
                 <h5 className="leading-6 font-medium text-gray-950">
