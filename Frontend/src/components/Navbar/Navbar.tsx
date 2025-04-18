@@ -13,9 +13,9 @@ const Navbar = (props: DashboardLayoutProps) => {
                 onClick={() => setOpenSideMenu(!openSideMenu)}
             >
                 {openSideMenu ? (
-                    <HiOutlineX size={30} className="2xl" />
+                    <HiOutlineX size={30} className="2xl cursor-pointer" />
                 ) : (
-                    <HiOutlineMenu size={30} className="2xl" />
+                    <HiOutlineMenu size={30} className="2xl cursor-pointer" />
                 )}
             </button>
             <h2 className="text-lg font-medium text-black">Expense Tracker</h2>

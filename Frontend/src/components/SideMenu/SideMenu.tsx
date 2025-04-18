@@ -46,7 +46,7 @@ const SideMenu = (props: DashboardLayoutProps) => {
                 return (
                     <button
                         key={`menu_${index}`}
-                        className={`item-center flex w-full gap-4 text-[15px] ${activeMenu == item.name && 'bg-primary text-white'} mb-3 rounded-lg px-6 py-3`}
+                        className={`item-center flex w-full gap-4 text-[15px] ${activeMenu == item.name && 'bg-primary text-white'} mb-3 rounded-lg px-6 py-3 hover:cursor-pointer`}
                         onClick={() => handleClick(item.path)}
                     >
                         {item.icon && typeof item.icon === 'function' && (

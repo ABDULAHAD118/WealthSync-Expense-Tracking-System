@@ -8,13 +8,9 @@ import InfoCard from '../../components/Cards/InfoCard';
 import { IoMdCard } from 'react-icons/io';
 import { LuHandCoins, LuWalletMinimal } from 'react-icons/lu';
 import { addThousandSeparator } from '../../utils/helper';
-
-interface DashboardDataProps {
-    totalBalance: number;
-    totalIncome: number;
-    totalExpense: number;
-    totalTransactions: number;
-}
+import RecentTransactions from '../../components/RecentTransactions/RecentTransactions';
+import { DashboardDataProps, TransactionInfoCardProps } from '../../Types';
+import FinanceOverview from '../../components/FinanceOverview/FinanceOverview';
 
 const Home = () => {
     useUserAuth();
@@ -55,6 +51,35 @@ const Home = () => {
                             dashboardData?.totalBalance || 0
                         )}
                         color="bg-primary"
+                    />
+                    <InfoCard
+                        icon={<LuWalletMinimal />}
+                        label="Total Income"
+                        value={addThousandSeparator(
+                            dashboardData?.totalIncome || 0
+                        )}
+                        color="bg-orange-500"
+                    />
+                    <InfoCard
+                        icon={<LuHandCoins />}
+                        label="Total Expense"
+                        value={addThousandSeparator(
+                            dashboardData?.totalExpense || 0
+                        )}
+                        color="bg-red-500"
+                    />
+                </div>
+                <div className="mt-6 grid grid-cols-1 gap-6 md:grid-cols-2">
+                    <RecentTransactions
+                        transactions={
+                            dashboardData?.recentTransaction as TransactionInfoCardProps[]
+                        }
+                        onSeeMore={() => navigate('/expense')}
+                    />
+                    <FinanceOverview
+                        totalBalance={dashboardData?.totalBalance || 0}
+                        totalIncome={dashboardData?.totalIncome || 0}
+                        totalExpense={dashboardData?.totalExpense || 0}
                     />
                 </div>
             </div>
