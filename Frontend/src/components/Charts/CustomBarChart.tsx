@@ -13,7 +13,7 @@ import {
 
 const CustomBarChart = ({ data }: any) => {
     const getBarColor = (index: number) => {
-        return index % 2 === 0 ? '#875cf5' : '#cfbefb';
+        return index % 2 === 0 ? '#875CF5' : '#cfbefb';
     };
     const CustomTooltip: FC<{
         active?: boolean;
@@ -33,7 +33,7 @@ const CustomBarChart = ({ data }: any) => {
                     </p>
                     <p className="text-sm text-gray-600">
                         Amount:{' '}
-                        <span className="text-sm font-medium text-gray-900">
+                        <span className="text-sm font-medium text-gray-600">
                             ${payload[0].payload.amount}
                         </span>
                     </p>
@@ -59,10 +59,9 @@ const CustomBarChart = ({ data }: any) => {
                     <Tooltip content={<CustomTooltip />} />
                     <Bar
                         dataKey="amount"
-                        fill="#FF8842"
+                        fill="#FF8042"
                         radius={[10, 10, 0, 0]}
-                        activeDot={{ r: 8, fill: 'yellow' }}
-                        activeStyle={{ fill: 'green' }}
+                        // activeDot={{ r: 8, fill: 'yellow' }
                     >
                         {data.map((index: number) => (
                             <Cell key={index} fill={getBarColor(index)} />
