@@ -13,7 +13,8 @@ const CustomLegend = ({ payload }: any) => {
                         style={{ backgroundColor: entry.color }}
                     ></div>
                     <span className="text-xs font-medium text-gray-700">
-                        {entry.value}
+                        {entry.value.charAt(0).toUpperCase() +
+                            entry.value.slice(1)}
                     </span>
                 </div>
             ))}

@@ -1,4 +1,4 @@
-import DashboardLayout from '../../components/layouts/DashboardLayout';
+import DashboardLayout from '../../components/Layouts/DashboardLayout';
 
 const Income = () => {
     return (

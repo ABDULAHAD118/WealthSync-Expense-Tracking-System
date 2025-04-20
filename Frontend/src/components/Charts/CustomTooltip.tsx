@@ -6,7 +6,8 @@ const CustomTooltip = (props: CustomTooltipProps) => {
         return (
             <div className="rounded-lg border border-gray-300 bg-white p-2 shadow-md">
                 <p className="mb-1 text-xs font-semibold text-purple-800">
-                    {payload[0].name}
+                    {payload[0].name.charAt(0).toUpperCase() +
+                        payload[0].name.slice(1).toLowerCase()}
                 </p>
                 <p className="text-sm text-gray-600">
                     Amount:{' '}

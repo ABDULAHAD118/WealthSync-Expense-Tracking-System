@@ -25,17 +25,17 @@ const CustomPieChart = (props: CustomPieChartProps) => {
                     innerRadius={100}
                     labelLine={false}
                 >
-                    {data.map((_, index) => (
-                        <Cell
-                            key={`cell-${index}`}
-                            fill={color[index % color.length]}
-                            className="cursor-pointer"
-                        />
-                    ))}
+                    {data &&
+                        data.map((_, index) => (
+                            <Cell
+                                key={`cell-${index}`}
+                                fill={color && color[index % color.length]}
+                                className="cursor-pointer"
+                            />
+                        ))}
                 </Pie>
                 <Tooltip content={<CustomTooltip />} />
                 <Legend content={<CustomLegend />} />
-                <div>ddd</div>
                 {showTextAnchor && (
                     <svg>
                         <text

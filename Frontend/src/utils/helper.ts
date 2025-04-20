@@ -1,3 +1,5 @@
+import { TransactionInfoCardProps } from '../Types';
+
 export const validateEmail = (email: string): boolean => {
     const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return regex.test(email);
@@ -23,4 +25,14 @@ export const addThousandSeparator = (num: number | null): string => {
     return fractionalPart
         ? `${formattedInteger}.${fractionalPart}`
         : formattedInteger;
+};
+
+export const prepareExpenseBarChartData = (
+    data: TransactionInfoCardProps[]
+) => {
+    const chartData = data.map((item) => ({
+        category: item?.category,
+        amount: item?.amount,
+    }));
+    return chartData;
 };

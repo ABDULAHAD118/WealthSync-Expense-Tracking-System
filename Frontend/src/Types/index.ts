@@ -41,6 +41,12 @@ export interface DashboardDataProps {
     totalExpense: number;
     totalTransactions: number;
     recentTransaction: TransactionInfoCardProps;
+    expenseLast30Days: {
+        transaction: TransactionInfoCardProps[];
+    };
+    incomeLast60Days: {
+        transaction: TransactionInfoCardProps[];
+    };
 }
 export interface RecentTransactionsProps {
     transactions: TransactionInfoCardProps[];
@@ -58,10 +64,10 @@ export interface TransactionInfoCardProps {
     hideDeleteBtn?: boolean;
 }
 export interface CustomPieChartProps {
-    data: { name: string; amount: number }[];
-    label: string;
-    totalAmount: string;
-    color: string[];
+    data?: { name: string; amount: number }[];
+    label?: string;
+    totalAmount?: string;
+    color?: string[];
     showTextAnchor?: boolean;
 }
 export interface CustomTooltipProps {
