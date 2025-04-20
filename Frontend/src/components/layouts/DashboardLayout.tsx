@@ -8,7 +8,7 @@ const DashboardLayout = (props: DashboardLayoutProps) => {
     const { activeMenu, children } = props;
     const { user } = useContext<any>(UserContext);
     return (
-        <div className="">
+        <div>
             <Navbar activeMenu={activeMenu} />
 
             {user && (
