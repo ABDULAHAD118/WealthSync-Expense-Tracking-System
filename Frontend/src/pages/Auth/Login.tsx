@@ -1,5 +1,5 @@
 import { ChangeEvent, useContext, useState } from 'react';
-import AuthLayout from '../../components/layouts/AuthLayout';
+import AuthLayout from '../../components/Layouts/AuthLayout';
 import { Link, useNavigate } from 'react-router-dom';
 import Input from '../../components/Input/Input';
 import { validateEmail } from '../../utils/helper';
