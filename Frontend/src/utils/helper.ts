@@ -1,3 +1,4 @@
+import moment from 'moment';
 import { TransactionInfoCardProps } from '../Types';
 
 export const validateEmail = (email: string): boolean => {
@@ -34,5 +35,20 @@ export const prepareExpenseBarChartData = (
         category: item?.category,
         amount: item?.amount,
     }));
+    return chartData;
+};
+
+export const prepareIncomeBarChartData = (data: TransactionInfoCardProps[]) => {
+    const storedData = [...data].sort(
+        (a, b) =>
+            new Date(a.date || 0).getTime() - new Date(b.date || 0).getTime()
+    );
+
+    const chartData = storedData.map((item) => ({
+        month: moment(item?.date).format('DD-MMM'),
+        category: item?.source,
+        amount: item?.amount,
+    }));
+
     return chartData;
 };

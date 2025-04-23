@@ -49,8 +49,9 @@ export interface DashboardDataProps {
     };
 }
 export interface RecentTransactionsProps {
-    transactions: TransactionInfoCardProps[];
-    onSeeMore: () => void;
+    transactions?: TransactionInfoCardProps[];
+    onSeeMore?: () => void;
+    onAddIncome?: () => void;
 }
 export interface TransactionInfoCardProps {
     _id?: string;

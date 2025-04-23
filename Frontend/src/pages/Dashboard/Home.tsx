@@ -8,13 +8,13 @@ import InfoCard from '../../components/Cards/InfoCard';
 import { IoMdCard } from 'react-icons/io';
 import { LuHandCoins, LuWalletMinimal } from 'react-icons/lu';
 import { addThousandSeparator } from '../../utils/helper';
-import RecentTransactions from '../../components/RecentTransactions/RecentTransactions';
+import RecentTransactions from '../../components/Dashboard/RecentTransactions/RecentTransactions';
 import { DashboardDataProps, TransactionInfoCardProps } from '../../Types';
-import FinanceOverview from '../../components/FinanceOverview/FinanceOverview';
-import ExpenseTransactions from '../../components/ExpenseTransactions/ExpenseTransactions';
-import Last30DaysExpenses from '../../components/Last30DaysExpenses/Last30DaysExpenses';
-import RecentIncomeWithChart from '../../components/RecentIncomeWithChart/RecentIncomeWithChart';
-import RecentIncome from '../../components/RecentIncome/RecentIncome';
+import FinanceOverview from '../../components/Dashboard/FinanceOverview/FinanceOverview';
+import ExpenseTransactions from '../../components/Dashboard/ExpenseTransactions/ExpenseTransactions';
+import Last30DaysExpenses from '../../components/Dashboard/Last30DaysExpenses/Last30DaysExpenses';
+import RecentIncomeWithChart from '../../components/Dashboard/RecentIncomeWithChart/RecentIncomeWithChart';
+import RecentIncome from '../../components/Dashboard/RecentIncome/RecentIncome';
 
 const Home = () => {
     useUserAuth();

@@ -1,5 +1,5 @@
-import { FinanceOverviewProps } from '../../Types';
-import CustomPieChart from '../Charts/CustomPieChart';
+import { FinanceOverviewProps } from '../../../Types';
+import CustomPieChart from '../../Charts/CustomPieChart';
 
 const FinanceOverview = (props: FinanceOverviewProps) => {
     const { totalBalance, totalIncome, totalExpense } = props;

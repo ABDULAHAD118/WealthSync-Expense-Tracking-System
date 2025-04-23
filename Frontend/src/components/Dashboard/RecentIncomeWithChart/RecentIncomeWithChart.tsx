@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
-import { TransactionInfoCardProps } from '../../Types';
-import CustomPieChart from '../Charts/CustomPieChart';
+import { TransactionInfoCardProps } from '../../../Types';
+import CustomPieChart from '../../Charts/CustomPieChart';
 
 interface RecentIncomeWithChartProps {
     data: TransactionInfoCardProps[];

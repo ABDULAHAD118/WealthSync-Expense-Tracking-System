@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
-import { TransactionInfoCardProps } from '../../Types';
-import { prepareExpenseBarChartData } from '../../utils/helper';
-import CustomBarChart from '../Charts/CustomBarChart';
+import { TransactionInfoCardProps } from '../../../Types';
+import { prepareExpenseBarChartData } from '../../../utils/helper';
+import CustomBarChart from '../../Charts/CustomBarChart';
 
 const Last30DaysExpenses = (props: { data: TransactionInfoCardProps[] }) => {
     const { data } = props;
