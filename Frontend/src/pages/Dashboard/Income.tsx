@@ -8,10 +8,10 @@ import Modal from '../../components/Modal/Modal';
 const Income = () => {
     const [incomeData, setIncomeData] = useState([]);
     const [loading, setLoading] = useState(false);
-    const [openDeleteAlert, setOpenDeleteAlert] = useState({
-        show: false,
-        data: null,
-    });
+    // const [openDeleteAlert, setOpenDeleteAlert] = useState({
+    //     show: false,
+    //     data: null,
+    // });
     const [openAddIncomeModal, setOpenAddIncomeModal] = useState(false);
 
     const fetchIncomeDetails = async () => {
@@ -30,10 +30,10 @@ const Income = () => {
             setLoading(false);
         }
     };
-    const handleAddIncome = async (income: string) => {};
-    const handleDeleteIncome = async (id: string) => {};
-    const handlePDFDownloadIncomeDetails = async () => {};
-    const handleExcelDownloadIncomeDetails = async () => {};
+    // const handleAddIncome = async (income: string) => {};
+    // const handleDeleteIncome = async (id: string) => {};
+    // const handlePDFDownloadIncomeDetails = async () => {};
+    // const handleExcelDownloadIncomeDetails = async () => {};
 
     useEffect(() => {
         fetchIncomeDetails();
