@@ -4,39 +4,39 @@ import Input from '../../Input/Input';
 import EmojiPickerPopup from '../../Input/EmojiPickerPopup';
 import Spinner from '../../Spinner/Spinner';
 
-const AddIncomeForm = (props: AddFormProps) => {
-    const { onAddIncome, loading } = props;
-    const [income, setIncome] = useState({
-        source: '',
+const AddExpenseForm = (props: AddFormProps) => {
+    const { onAddExpense, loading } = props;
+    const [expense, setExpense] = useState({
+        category: '',
         amount: '',
         date: '',
         icon: '',
     });
     const handelChange = (key: string, value: string) => {
-        setIncome((prev) => ({ ...prev, [key]: value }));
+        setExpense((prev) => ({ ...prev, [key]: value }));
     };
     return (
         <div>
             <EmojiPickerPopup
-                icon={income.icon}
+                icon={expense.icon}
                 onSelect={(e) => handelChange('icon', e)}
             />
             <Input
-                value={income.source}
+                value={expense.category}
                 type="text"
-                placeholder="Freelance, Salary etc"
-                label="Income Source"
-                onChange={(e) => handelChange('source', e.target.value)}
+                placeholder="Food, Home Allowance etc"
+                label="Category"
+                onChange={(e) => handelChange('category', e.target.value)}
             />
             <Input
-                value={income.amount}
+                value={expense.amount}
                 type="number"
                 placeholder="1000, 2000 etc"
                 label="Amount"
                 onChange={(e) => handelChange('amount', e.target.value)}
             />
             <Input
-                value={income.date}
+                value={expense.date}
                 type="date"
                 placeholder="2023-10-01"
                 label="Date"
@@ -46,7 +46,7 @@ const AddIncomeForm = (props: AddFormProps) => {
                 <button
                     type="button"
                     className="add-btn add-btn-fill"
-                    onClick={() => onAddIncome?.(income)}
+                    onClick={() => onAddExpense?.(expense)}
                 >
                     {loading ? (
                         <Spinner
@@ -56,7 +56,7 @@ const AddIncomeForm = (props: AddFormProps) => {
                             screenHeight={true}
                         />
                     ) : (
-                        'Add Income'
+                        'Add Expense'
                     )}
                 </button>
             </div>
@@ -64,4 +64,4 @@ const AddIncomeForm = (props: AddFormProps) => {
     );
 };
 
-export default AddIncomeForm;
+export default AddExpenseForm;

@@ -1,11 +1,8 @@
 import EmojiPicker from 'emoji-picker-react';
 import { useState } from 'react';
 import { LuImage, LuX } from 'react-icons/lu';
+import { EmojiPickerPopupProps } from '../../Types';
 
-interface EmojiPickerPopupProps {
-    icon: string;
-    onSelect: (emoji: string) => void;
-}
 const EmojiPickerPopup = (props: EmojiPickerPopupProps) => {
     const { onSelect, icon } = props;
     const [isOpen, setIsOpen] = useState(false);

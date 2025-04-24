@@ -52,6 +52,7 @@ export interface RecentTransactionsProps {
     transactions?: TransactionInfoCardProps[];
     onSeeMore?: () => void;
     onAddIncome?: () => void;
+    onAddExpense?: () => void;
 }
 export interface TransactionInfoCardProps {
     _id?: string;
@@ -96,12 +97,43 @@ export interface ModalProps {
     children: ReactNode;
 }
 
-export interface AddIncomeFormProps {
-    onAddIncome: (income: any) => void;
+export interface AddFormProps {
+    onAddIncome?: (income: any) => void;
+    onAddExpense?: (expense: any) => void;
+    loading: boolean;
 }
 export interface DeleteAlertProps {
     transactions: TransactionInfoCardProps[];
     onDelete: (id: string) => void;
     onDownloadPDF: () => void;
     onDownloadExcel: () => void;
+}
+export interface ExpenseTransactionsProps {
+    transactions: any[];
+    onSeeMore: () => void;
+}
+export interface RecentIncomeWithChartProps {
+    data: TransactionInfoCardProps[];
+    totalIncome: number;
+}
+export interface EmojiPickerPopupProps {
+    icon: string;
+    onSelect: (emoji: string) => void;
+}
+export interface InputProps {
+    value: string;
+    onChange: (e: any) => void;
+    placeholder: string;
+    label: string;
+    type: string;
+}
+export interface ProfilePhotoSelectorProps {
+    image: File | null;
+    setImage: (image: File | null) => void;
+}
+export interface SpinnerProps {
+    height: number;
+    width: number;
+    fillColor: string;
+    screenHeight?: boolean;
 }

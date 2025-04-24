@@ -1,13 +1,7 @@
 import { useState } from 'react';
 import { FaRegEye, FaRegEyeSlash } from 'react-icons/fa6';
+import { InputProps } from '../../Types';
 
-interface InputProps {
-    value: string;
-    onChange: (e: any) => void;
-    placeholder: string;
-    label: string;
-    type: string;
-}
 const Input = (props: InputProps) => {
     const { value, onChange, placeholder, label, type } = props;
     const [showPassword, setShowPassword] = useState(false);

@@ -11,6 +11,7 @@ import Income from './pages/Dashboard/Income';
 import Expense from './pages/Dashboard/Expense';
 import ProtectedRoute from './Auth/ProtectedRoute';
 import { Toaster } from 'react-hot-toast';
+import NotFound from './components/404/404';
 
 const App = () => {
     return (
@@ -48,7 +49,7 @@ const App = () => {
                         }
                     />
 
-                    <Route path="*" element={<div>Not Found</div>} />
+                    <Route path="*" element={<NotFound />} />
                 </Routes>
             </Router>
             <Toaster

@@ -7,29 +7,34 @@ import { validateEmail } from '../../utils/helper';
 import { API_PATH } from '../../utils/apiPath';
 import axiosInstance from '../../utils/axiosInstance';
 import { UserContext } from '../../contexts/UserContext';
+import Spinner from '../../components/Spinner/Spinner';
+import toast from 'react-hot-toast';
 
 const Signup = () => {
     const { updateUser } = useContext<any>(UserContext);
+    const [loading, setLoading] = useState(false);
     const [profilePic, setProfilePic] = useState<File | null>(null);
     const [data, setData] = useState({
         fullName: '',
         email: '',
         password: '',
     });
-    const [error, setError] = useState<string | null>(null);
     const navigate = useNavigate();
 
     const handleSubmit = async (e: FormEvent) => {
         e.preventDefault();
-        if (!data.fullName || !data.email || !data.password || !profilePic) {
-            setError('Please fill all the fields');
+        if (!profilePic) {
+            toast.error('Please upload a profile picture');
+            return;
+        }
+        if (!data.fullName || !data.email || !data.password) {
+            toast.error('Please fill all the fields');
             return;
         }
         if (!validateEmail(data.email)) {
-            setError('Please enter a valid email address');
+            toast.error('Please enter a valid email address');
             return;
         }
-        setError(null);
 
         try {
             const formData = new FormData();
@@ -39,7 +44,7 @@ const Signup = () => {
             if (profilePic) {
                 formData.append('image', profilePic);
             }
-
+            setLoading(true);
             const response = await axiosInstance.post(
                 API_PATH.AUTH.REGISTER,
                 formData,
@@ -54,13 +59,17 @@ const Signup = () => {
                 localStorage.setItem('token', token);
                 updateUser(user);
                 navigate('/dashboard');
+                setLoading(false);
+                toast.success(response.data.message);
             }
         } catch (error: any) {
             if (error.response && error.response.data.message) {
-                setError(error.response.data.message);
+                toast.error(error.response.data.message);
             } else {
-                setError('Something went wrong. Please try again later.');
+                toast.error('Something went wrong. Please try again later.');
             }
+        } finally {
+            setLoading(false);
         }
     };
     return (
@@ -112,14 +121,21 @@ const Signup = () => {
                             />
                         </div>
                     </div>
-                    {error && (
-                        <p className="pb-2.5 text-xs text-red-500">{error}</p>
-                    )}
+
                     <button type="submit" className="btn-primary">
-                        Sign Up
+                        {loading ? (
+                            <Spinner
+                                width={5}
+                                height={5}
+                                fillColor="fill-white"
+                                screenHeight={true}
+                            />
+                        ) : (
+                            'Sign Up'
+                        )}
                     </button>
                     <p className="mt-3 text-[13px] text-slate-800">
-                        Already have an account?
+                        Already have an account?{' '}
                         <Link
                             to="/login"
                             className="text-primary cursor-pointer font-medium underline"

@@ -52,3 +52,19 @@ export const prepareIncomeBarChartData = (data: TransactionInfoCardProps[]) => {
 
     return chartData;
 };
+export const prepareExpenseLineChartData = (
+    data: TransactionInfoCardProps[]
+) => {
+    const storedData = [...data].sort(
+        (a, b) =>
+            new Date(a.date || 0).getTime() - new Date(b.date || 0).getTime()
+    );
+
+    const chartData = storedData.map((item) => ({
+        month: moment(item?.date).format('Do MMM'),
+        category: item?.category,
+        amount: item?.amount,
+    }));
+
+    return chartData;
+};

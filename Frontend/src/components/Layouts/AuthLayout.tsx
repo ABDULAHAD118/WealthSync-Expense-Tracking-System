@@ -6,8 +6,8 @@ const AuthLayout = ({ children }: { children: ReactNode }) => {
     return (
         <div className="flex">
             <div className="h-screen w-screen px-12 pt-8 pb-12 md:w-[68vw]">
-                <h2 className="text-lg font-medium text-black">
-                    Expense Tracker
+                <h2 className="text-lg font-bold text-purple-800">
+                    WealthSync
                 </h2>
                 {children}
             </div>

@@ -1,9 +1,7 @@
 import { ChangeEvent, useRef, useState } from 'react';
 import { LuUser, LuUpload, LuTrash } from 'react-icons/lu';
-interface ProfilePhotoSelectorProps {
-    image: File | null;
-    setImage: (image: File | null) => void;
-}
+import { ProfilePhotoSelectorProps } from '../../Types';
+
 const ProfilePhotoSelector = (props: ProfilePhotoSelectorProps) => {
     const { image, setImage } = props;
     const inputRef = useRef<HTMLInputElement>(null);
@@ -38,7 +36,6 @@ const ProfilePhotoSelector = (props: ProfilePhotoSelectorProps) => {
                 onChange={handleImageChange}
                 className="hidden"
                 ref={inputRef}
-                required
             />
             {!image ? (
                 <div className="relative flex h-20 w-20 items-center justify-center rounded-full bg-purple-100">

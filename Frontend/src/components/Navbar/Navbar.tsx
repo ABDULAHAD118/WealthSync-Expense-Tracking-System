@@ -18,7 +18,7 @@ const Navbar = (props: DashboardLayoutProps) => {
                     <HiOutlineMenu size={30} className="2xl cursor-pointer" />
                 )}
             </button>
-            <h2 className="text-lg font-medium text-black">Expense Tracker</h2>
+            <h2 className="text-lg font-bold text-purple-800">WealthSync</h2>
             {openSideMenu && (
                 <div className="fixed top-[61px] -ml-4 bg-white">
                     <SideMenu activeMenu={activeMenu} />

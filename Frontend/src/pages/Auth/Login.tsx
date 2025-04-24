@@ -6,32 +6,34 @@ import { validateEmail } from '../../utils/helper';
 import axiosInstance from '../../utils/axiosInstance';
 import { API_PATH } from '../../utils/apiPath';
 import { UserContext } from '../../contexts/UserContext';
+import Spinner from '../../components/Spinner/Spinner';
+import toast from 'react-hot-toast';
 
 const Login = () => {
     const { updateUser } = useContext<any>(UserContext);
+    const [loading, setLoading] = useState(false);
     const [data, setData] = useState({
         email: '',
         password: '',
     });
-    const [error, setError] = useState<string | null>(null);
     const navigate = useNavigate();
     const handleLogin = async (e: any) => {
         e.preventDefault();
         if (!validateEmail(data.email)) {
-            setError('Please enter a valid email address');
+            toast.error('Please enter a valid email address');
             return;
         }
         if (!data.password) {
-            setError('Password is required');
+            toast.error('Password is required');
             return;
         }
         if (data.password.length < 6) {
-            setError('Password must be at least 6 characters long');
+            toast.error('Password must be at least 6 characters long');
             return;
         }
-        setError(null);
 
         try {
+            setLoading(true);
             const response = await axiosInstance.post(API_PATH.AUTH.LOGIN, {
                 email: data.email,
                 password: data.password,
@@ -41,13 +43,17 @@ const Login = () => {
                 localStorage.setItem('token', token);
                 updateUser(user);
                 navigate('/dashboard');
+                setLoading(false);
+                toast.success(response.data.message);
             }
         } catch (error: any) {
             if (error.response && error.response.data.message) {
-                setError(error.response.data.message);
+                toast.error(error.response.data.message);
             } else {
-                setError('Something went wrong. Please try again later.');
+                toast.error('Something went wrong. Please try again later.');
             }
+        } finally {
+            setLoading(false);
         }
     };
     return (
@@ -78,14 +84,20 @@ const Login = () => {
                         placeholder="Min 6 Characters"
                         label="Password"
                     />
-                    {error && (
-                        <p className="pb-2.5 text-xs text-red-500">{error}</p>
-                    )}
                     <button type="submit" className="btn-primary">
-                        Login
+                        {loading ? (
+                            <Spinner
+                                width={5}
+                                height={5}
+                                fillColor="fill-white"
+                                screenHeight={true}
+                            />
+                        ) : (
+                            'Login'
+                        )}
                     </button>
                     <p className="mt-3 text-[13px] text-slate-800">
-                        Don't have an account?
+                        Don't have an account?{' '}
                         <Link
                             to="/signup"
                             className="text-primary cursor-pointer font-medium underline"

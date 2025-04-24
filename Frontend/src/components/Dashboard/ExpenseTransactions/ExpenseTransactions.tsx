@@ -1,11 +1,7 @@
 import { LuArrowRight } from 'react-icons/lu';
 import TransactionInfoCard from '../../Cards/TransactionInfoCard';
 import moment from 'moment';
-
-interface ExpenseTransactionsProps {
-    transactions: any[]; // Replace 'any' with the actual type of your transactions
-    onSeeMore: () => void;
-}
+import { ExpenseTransactionsProps } from '../../../Types';
 
 const ExpenseTransactions = (props: ExpenseTransactionsProps) => {
     const { transactions, onSeeMore } = props;

@@ -1,11 +1,7 @@
 import { useEffect, useState } from 'react';
-import { TransactionInfoCardProps } from '../../../Types';
+import { RecentIncomeWithChartProps } from '../../../Types';
 import CustomPieChart from '../../Charts/CustomPieChart';
 
-interface RecentIncomeWithChartProps {
-    data: TransactionInfoCardProps[];
-    totalIncome: number;
-}
 const RecentIncomeWithChart = (props: RecentIncomeWithChartProps) => {
     const { data, totalIncome } = props;
     const [chartData, setChartData] = useState<
