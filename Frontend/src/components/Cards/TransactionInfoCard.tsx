@@ -7,7 +7,7 @@ import {
 import { TransactionInfoCardProps } from '../../Types';
 
 const TransactionInfoCard = (props: TransactionInfoCardProps) => {
-    const { title, icon, date, amount, type, hideDeleteBtn } = props;
+    const { title, icon, date, amount, type, hideDeleteBtn, onDelete } = props;
     const getAmountStyle = () => {
         if (type === 'income') {
             return 'bg-green-50 text-green-500';
@@ -42,7 +42,7 @@ const TransactionInfoCard = (props: TransactionInfoCardProps) => {
                     {!hideDeleteBtn && (
                         <button
                             className="cursor-pointer text-gray-400 opacity-0 transition-opacity group-hover:opacity-100 hover:text-red-500"
-                            // onClick={OnDelete}
+                            onClick={onDelete}
                         >
                             <LuTrash2 size={18} />
                         </button>

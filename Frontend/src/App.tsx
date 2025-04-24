@@ -10,45 +10,52 @@ import Home from './pages/Dashboard/Home';
 import Income from './pages/Dashboard/Income';
 import Expense from './pages/Dashboard/Expense';
 import ProtectedRoute from './Auth/ProtectedRoute';
+import { Toaster } from 'react-hot-toast';
 
 const App = () => {
     return (
-        <Router>
-            <Routes>
-                <Route path="/" element={<Root />} />
-                <Route path="/login" element={<Login />} />
-                <Route path="/signup" element={<Signup />} />
+        <>
+            <Router>
+                <Routes>
+                    <Route path="/" element={<Root />} />
+                    <Route path="/login" element={<Login />} />
+                    <Route path="/signup" element={<Signup />} />
 
-                <Route
-                    path="/dashboard"
-                    element={
-                        <ProtectedRoute>
-                            <Home />
-                        </ProtectedRoute>
-                    }
-                />
+                    <Route
+                        path="/dashboard"
+                        element={
+                            <ProtectedRoute>
+                                <Home />
+                            </ProtectedRoute>
+                        }
+                    />
 
-                <Route
-                    path="/income"
-                    element={
-                        <ProtectedRoute>
-                            <Income />
-                        </ProtectedRoute>
-                    }
-                />
+                    <Route
+                        path="/income"
+                        element={
+                            <ProtectedRoute>
+                                <Income />
+                            </ProtectedRoute>
+                        }
+                    />
 
-                <Route
-                    path="/expense"
-                    element={
-                        <ProtectedRoute>
-                            <Expense />
-                        </ProtectedRoute>
-                    }
-                />
+                    <Route
+                        path="/expense"
+                        element={
+                            <ProtectedRoute>
+                                <Expense />
+                            </ProtectedRoute>
+                        }
+                    />
 
-                <Route path="*" element={<div>Not Found</div>} />
-            </Routes>
-        </Router>
+                    <Route path="*" element={<div>Not Found</div>} />
+                </Routes>
+            </Router>
+            <Toaster
+                position="top-right"
+                toastOptions={{ className: '', style: { fontSize: '13px' } }}
+            />
+        </>
     );
 };
 

@@ -1,10 +1,5 @@
 import { RxCross2 } from 'react-icons/rx';
-interface ModalProps {
-    isOpen: boolean;
-    onClose: () => void;
-    title: string;
-    children: React.ReactNode;
-}
+import { ModalProps } from '../../Types';
 
 const Modal = (props: ModalProps) => {
     const { isOpen, onClose, title, children } = props;

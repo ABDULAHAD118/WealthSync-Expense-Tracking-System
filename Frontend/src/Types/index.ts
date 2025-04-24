@@ -63,6 +63,7 @@ export interface TransactionInfoCardProps {
     amount?: number;
     type?: string;
     hideDeleteBtn?: boolean;
+    onDelete?: () => void;
 }
 export interface CustomPieChartProps {
     data?: { name: string; amount: number }[];
@@ -86,4 +87,21 @@ export interface FinanceOverviewProps {
 export interface LegendEntry {
     color: string;
     value: string;
+}
+
+export interface ModalProps {
+    isOpen: boolean;
+    onClose: () => void;
+    title: string;
+    children: ReactNode;
+}
+
+export interface AddIncomeFormProps {
+    onAddIncome: (income: any) => void;
+}
+export interface DeleteAlertProps {
+    transactions: TransactionInfoCardProps[];
+    onDelete: (id: string) => void;
+    onDownloadPDF: () => void;
+    onDownloadExcel: () => void;
 }

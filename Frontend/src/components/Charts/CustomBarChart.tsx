@@ -62,9 +62,11 @@ const CustomBarChart = ({ data }: any) => {
                         radius={[10, 10, 0, 0]}
                         // activeDot={{ r: 8, fill: 'yellow' }
                     >
-                        {data.map((index: number) => (
-                            <Cell key={index} fill={getBarColor(index)} />
-                        ))}
+                        {data.map((_: any, index: number) => {
+                            return (
+                                <Cell key={index} fill={getBarColor(index)} />
+                            );
+                        })}
                     </Bar>
                 </BarChart>
             </ResponsiveContainer>
