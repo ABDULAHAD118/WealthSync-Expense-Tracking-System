@@ -33,8 +33,8 @@ const getDashboardData = async (req, res) => {
         }).sort({ date: -1 });
 
         const incomeLast60Days = last60DaysIncomeTransaction.reduce((sum, transaction) => {
-            sum + transaction.amount, 0;
-        });
+            return sum + transaction.amount;
+        }, 0);
 
         const last30DaysExpenseTransaction = await Expense.find({
             userId,
@@ -42,8 +42,8 @@ const getDashboardData = async (req, res) => {
         }).sort({ date: -1 });
 
         const expenseLast30Days = last30DaysExpenseTransaction.reduce((sum, transaction) => {
-            sum + transaction.amount, 0;
-        });
+            return sum + transaction.amount;
+        }, 0);
 
         const lastTransaction = [
             ...(await Income.find({ userId }).sort({ date: -1 }).limit(5)).map((transaction) => ({
