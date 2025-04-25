@@ -1,7 +1,6 @@
 const xlsx = require('xlsx');
 const PDFDocument = require('pdfkit-table');
 const Income = require('../models/income.model');
-const fs = require('fs');
 
 const addIncome = async (req, res) => {
     const userId = req.user.id;
@@ -71,9 +70,8 @@ const downloadPdfIncome = async (req, res) => {
             item.date.toISOString().split('T')[0],
         ]);
 
-        const doc = new PDFDocument({ autoFirstPage: true });
+        const doc = new PDFDocument();
         const buffers = [];
-
         doc.on('data', (chunk) => buffers.push(chunk));
         doc.on('end', () => {
             const pdfBuffer = Buffer.concat(buffers);
@@ -85,25 +83,18 @@ const downloadPdfIncome = async (req, res) => {
         // Title
         doc.fontSize(18).text('Income Details', { align: 'center' });
         doc.moveDown();
-
         // Table using pdfkit-table
+
         await doc.table(
             {
                 headers: ['Sr.No.', 'Icon', 'Amount', 'Source', 'Date'],
-                rows: data.map((item, index) => [
-                    index + 1,
-                    item.icon,
-                    item.amount,
-                    item.source,
-                    item.date,
-                ]),
+                rows: data,
             },
             {
-                prepareHeader: () => doc.fontSize(12),
-                prepareRow: (row, i) => doc.fontSize(10),
+                prepareHeader: () => doc.font('Helvetica-Bold').fontSize(12),
+                prepareRow: (row, index) => doc.font('Helvetica').fontSize(10),
             }
         );
-
         doc.end();
     } catch (error) {
         console.error('PDF generation error:', error);
@@ -128,10 +119,14 @@ const downloadExcelIncome = async (req, res) => {
         const wb = xlsx.utils.book_new();
         const ws = xlsx.utils.json_to_sheet(data);
         xlsx.utils.book_append_sheet(wb, ws, 'Income Details');
-        const fileName = 'Income_Details.xlsx';
-        xlsx.writeFile(wb, fileName);
+        const buffer = xlsx.write(wb, { type: 'buffer', bookType: 'xlsx' });
 
-        res.download(fileName);
+        res.setHeader(
+            'Content-Type',
+            'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+        );
+        res.setHeader('Content-Disposition', 'attachment; filename=Income_Details.xlsx');
+        res.send(buffer);
     } catch (error) {
         console.error(error);
         return res.status(500).json({ message: 'Internal server error' });

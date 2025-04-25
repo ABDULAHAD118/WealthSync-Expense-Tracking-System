@@ -60,29 +60,29 @@ const downloadPdfExpense = async (req, res) => {
         if (expense.length === 0) {
             return res.status(404).json({ message: 'No expense found' });
         }
-        const data = expense.map((item) => ({
-            icon: item.icon,
-            amount: item.amount,
-            category: item.category,
-            date: item.date.toISOString().split('T')[0],
-        }));
+        const data = expense.map((item, index) => [
+            index + 1,
+            item.icon,
+            item.amount,
+            item.category,
+            item.date.toISOString().split('T')[0],
+        ]);
 
-        // Generate PDF file
-        const pdfFileName = 'Expense_Details.pdf';
         const doc = new PDFDocument();
-        doc.pipe(fs.createWriteStream(pdfFileName));
+        const buffers = [];
+        doc.on('data', (chunk) => buffers.push(chunk));
+        doc.on('end', () => {
+            const pdfBuffer = Buffer.concat(buffers);
+            res.setHeader('Content-Type', 'application/pdf');
+            res.setHeader('Content-Disposition', 'attachment; filename=Expense_Details.pdf');
+            res.send(pdfBuffer);
+        });
         doc.fontSize(16).text('Expense Details', { align: 'center' });
         doc.moveDown();
         await doc.table(
             {
                 headers: ['Sr.No.', 'Icon', 'Amount', 'Category', 'Date'],
-                rows: data.map((item, index) => [
-                    index + 1,
-                    item.icon,
-                    item.amount,
-                    item.category,
-                    item.date,
-                ]),
+                rows: data,
             },
             {
                 prepareHeader: () => doc.fontSize(12),
@@ -90,8 +90,6 @@ const downloadPdfExpense = async (req, res) => {
             }
         );
         doc.end();
-
-        res.download(pdfFileName);
     } catch (error) {
         console.error(error);
         return res.status(500).json({ message: 'Internal server error' });
@@ -115,10 +113,14 @@ const downloadExcelExpense = async (req, res) => {
         const wb = xlsx.utils.book_new();
         const ws = xlsx.utils.json_to_sheet(data);
         xlsx.utils.book_append_sheet(wb, ws, 'Expense Details');
-        const fileName = 'Expense_Details.xlsx';
-        xlsx.writeFile(wb, fileName);
+        const buffer = xlsx.write(wb, { type: 'buffer', bookType: 'xlsx' });
 
-        res.download(fileName);
+        res.setHeader(
+            'Content-Type',
+            'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+        );
+        res.setHeader('Content-Disposition', 'attachment; filename=Expense_Details.xlsx');
+        res.send(buffer);
     } catch (error) {
         console.error(error);
         return res.status(500).json({ message: 'Internal server error' });
