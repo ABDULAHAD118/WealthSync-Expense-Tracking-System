@@ -131,7 +131,6 @@ const Expense = () => {
             window.URL.revokeObjectURL(url);
         } catch (error) {
             console.error('Error downloading PDF:', error);
-            toast.error('Error downloading PDF');
         }
     };
     const handleExcelDownloadExpenseDetails = async () => {
