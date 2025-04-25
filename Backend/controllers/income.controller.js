@@ -54,25 +54,39 @@ const deleteIncome = async (req, res) => {
     }
 };
 const downloadPdfIncome = async (req, res) => {
-    const userId = req.user.id;
+    const userId = req.user?.id; // Ensure auth middleware attaches req.user
+
     try {
         const income = await Income.find({ userId }).sort({ date: -1 });
+
         if (income.length === 0) {
             return res.status(404).json({ message: 'No income found' });
         }
-        const data = income.map((item) => ({
-            icon: item.icon,
-            amount: item.amount,
-            source: item.source,
-            date: item.date.toISOString().split('T')[0],
-        }));
 
-        // Generate PDF file
-        const pdfFileName = 'Income_Details.pdf';
-        const doc = new PDFDocument();
-        doc.pipe(fs.createWriteStream(pdfFileName));
-        doc.fontSize(16).text('Income Details', { align: 'center' });
+        const data = income.map((item, index) => [
+            index + 1,
+            item.icon,
+            item.amount,
+            item.source,
+            item.date.toISOString().split('T')[0],
+        ]);
+
+        const doc = new PDFDocument({ autoFirstPage: true });
+        const buffers = [];
+
+        doc.on('data', (chunk) => buffers.push(chunk));
+        doc.on('end', () => {
+            const pdfBuffer = Buffer.concat(buffers);
+            res.setHeader('Content-Type', 'application/pdf');
+            res.setHeader('Content-Disposition', 'attachment; filename=Income_Details.pdf');
+            res.send(pdfBuffer);
+        });
+
+        // Title
+        doc.fontSize(18).text('Income Details', { align: 'center' });
         doc.moveDown();
+
+        // Table using pdfkit-table
         await doc.table(
             {
                 headers: ['Sr.No.', 'Icon', 'Amount', 'Source', 'Date'],
@@ -89,11 +103,10 @@ const downloadPdfIncome = async (req, res) => {
                 prepareRow: (row, i) => doc.fontSize(10),
             }
         );
-        doc.end();
 
-        res.download(pdfFileName);
+        doc.end();
     } catch (error) {
-        console.error(error);
+        console.error('PDF generation error:', error);
         return res.status(500).json({ message: 'Internal server error' });
     }
 };
